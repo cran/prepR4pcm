@@ -1,3 +1,13 @@
+# prepR4pcm 1.0.2
+
+* `reconcile_augment(source = "rtrees")` now correctly distinguishes exact placements from genus (`*`) and family (`**`) grafts, and reports the graft rank in its existing augmentation metadata (#112).
+
+* `reconcile_crosswalk_supplement()` adds a safer post-baseline crosswalk workflow: run exact/normalised/synonym/fuzzy matching first, apply one-to-one crosswalk rows only to names that remain unresolved on both sides, and skip duplicate source or target candidates instead of accepting split/lump rows by row order.
+
+# prepR4pcm 1.0.1
+
+* `reconcile_crosswalk()` now warns more clearly when split/lump rows are kept as automatic overrides, and the bird workflow now demonstrates the safer pattern: run exact/normalised matching first, restrict automatic crosswalk use to one-to-one rows, and treat `1BL to many BT` / `Many BL to 1BT` cases as manual review candidates. The documentation now states explicitly that crosswalk overrides are applied before the matching cascade and can preempt otherwise exact or normalised matches.
+
 # prepR4pcm 1.0.0
 
 * **CRAN review response.** `DESCRIPTION` now includes the EcoEvoRxiv method reference, remaining `\dontrun{}` examples were replaced with CRAN-preferred executable structures, and `reconcile_export()` now defaults to a unique temporary directory rather than the current working directory.

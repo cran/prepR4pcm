@@ -36,8 +36,9 @@
 #'     \code{rtrees::get_tree(tree_by_user = TRUE)}. Uses your tree
 #'     as the backbone and lets \code{rtrees} place each missing
 #'     species using genus / family information from a taxon-specific
-#'     reference tree. Requires \code{taxon} and the GitHub-only
-#'     \code{rtrees} package
+#'     reference tree. Requires \code{taxon} and the CRAN
+#'     \code{rtrees} package (install with
+#'     \code{install.packages("rtrees")})
 #'     (\url{https://daijiang.github.io/rtrees/}). Helpful when the
 #'     genus is absent from your tree but present in \code{rtrees}'
 #'     reference --- which the internal mode would skip.}
@@ -124,12 +125,13 @@
 #'   argument.)
 #' @param quiet Logical. Suppress progress messages? Default `FALSE`.
 #' @param source A length-1 character vector. Which grafting backend
-#'   to use. One of `"internal"` (default), `"rtrees"`, or
-#'   `"vphylomaker"`. See \dQuote{Choosing a source}.
+#'   to use. One of `"internal"` (default), `"rtrees"`,
+#'   `"vphylomaker"`, or `"uphylomaker"`. See \dQuote{Choosing a source}.
 #' @param taxon A length-1 character vector. Required when
 #'   `source = "rtrees"`. One of `"bird"`, `"mammal"`, `"fish"`,
 #'   `"amphibian"`, `"reptile"`, `"plant"`, `"shark_ray"`, `"bee"`,
-#'   `"butterfly"`. Ignored for `"internal"` and `"vphylomaker"`.
+#'   `"butterfly"`. Ignored for `"internal"`, `"vphylomaker"`, and
+#'   `"uphylomaker"`.
 #' @param check_ultrametric Logical. After grafting, check that the
 #'   result is ultrametric and warn if not. Default `TRUE`. The
 #'   `"rtrees"`, `"vphylomaker"`, and `"uphylomaker"` backends produce
@@ -693,7 +695,7 @@ pr_bind_species <- function(tree, sp_label, congener_tips, where, bl) {
   if (!requireNamespace("rtrees", quietly = TRUE)) {
     cli::cli_abort(
       c("{.code source = \"rtrees\"} requires the {.pkg rtrees} package.",
-        "i" = 'Install with: {.code pak::pak("daijiang/rtrees")} (GitHub-only).',
+        "i" = 'Install with: {.code install.packages("rtrees")}.',
         ">" = "See {.url https://daijiang.github.io/rtrees/} for details.")
     )
   }
@@ -708,7 +710,7 @@ pr_bind_species <- function(tree, sp_label, congener_tips, where, bl) {
   # rtrees::get_tree expects sp_list as either character or a data.frame
   # with cols `species`, `genus`, `family`. We pass character; rtrees
   # parses the genus from the binomial.
-  augmented_tree <- rtrees::get_tree(
+  augmented_tree <- .pr_rtrees_get_tree(
     sp_list      = species_to_add,
     tree         = tree,
     taxon        = taxon,
@@ -727,28 +729,38 @@ pr_bind_species <- function(tree, sp_label, congener_tips, where, bl) {
     augmented_tree$tip.label
   }
 
-  # rtrees flags grafted tips with a trailing `*`. Strip it for matching.
-  ref_tips_clean <- sub("\\*$", "", ref_tips)
+  # rtrees flags genus and family grafts with one and two trailing stars.
+  # Keep those labels in the returned tree; use markerless labels only for
+  # matching requested species.
+  tip_info <- .pr_parse_rtrees_tip_labels(ref_tips)
   norm_req <- pr_normalize_names(species_to_add)
-  norm_tip <- pr_normalize_names(ref_tips_clean)
+  norm_tip <- pr_normalize_names(tip_info$markerless_label)
   in_tree  <- norm_req %in% norm_tip
   added_species   <- species_to_add[in_tree]
   skipped_species <- species_to_add[!in_tree]
 
-  # Identify which of our added species were grafted at higher rank.
-  grafted_set   <- grep("\\*$", ref_tips, value = TRUE)
-  grafted_clean <- pr_normalize_names(sub("\\*$", "", grafted_set))
+  # Identify placement rank for every requested species retained in the tree.
+  status_by_clean <- stats::setNames(tip_info$placement_status, norm_tip)
   added_norm    <- pr_normalize_names(added_species)
-  was_grafted   <- added_norm %in% grafted_clean
+  placement_status <- unname(status_by_clean[added_norm])
+  was_grafted <- placement_status != "exact"
+  n_exact <- sum(placement_status == "exact")
+  n_genus_added <- sum(placement_status == "genus_added")
+  n_family_added <- sum(placement_status == "family_added")
+  n_skipped <- length(skipped_species)
 
   augmented <- if (length(added_species) > 0) {
     tibble(
       species       = added_species,
       genus         = pr_extract_genus(added_species),
       placed_near   = ifelse(
-        was_grafted,
-        "rtrees: grafted at higher-rank node",
-        "rtrees: placed at species level"
+        placement_status == "family_added",
+        "rtrees: grafted at family-level node",
+        ifelse(
+          placement_status == "genus_added",
+          "rtrees: grafted at genus-level node",
+          "rtrees: placed at species level"
+        )
       ),
       branch_length = NA_real_,        # rtrees decides
       method        = paste0(
@@ -781,7 +793,11 @@ pr_bind_species <- function(tree, sp_label, congener_tips, where, bl) {
     backend_meta = list(
       backend   = "rtrees",
       taxon     = taxon,
-      n_grafted = length(grafted_set),
+      n_exact = n_exact,
+      n_genus_added = n_genus_added,
+      n_family_added = n_family_added,
+      n_skipped = n_skipped,
+      n_grafted = n_genus_added + n_family_added,
       n_returned = if (is_multi) length(augmented_tree) else 1L
     )
   )
@@ -1077,13 +1093,13 @@ pr_bind_species <- function(tree, sp_label, congener_tips, where, bl) {
 #' @return A modified phylo object.
 #' @keywords internal
 pr_bind_tip <- function(tree, tip_label, where, position = 0,
-                         edge.length = 0) {
+                        edge.length = 0) {
   # Try phytools first
- if (requireNamespace("phytools", quietly = TRUE)) {
+  if (requireNamespace("phytools", quietly = TRUE)) {
     return(phytools::bind.tip(tree, tip_label,
-                               where = where,
-                               position = position,
-                               edge.length = edge.length))
+                              where = where,
+                              position = position,
+                              edge.length = edge.length))
   }
 
   # Pure-ape fallback: create a 1-tip tree and bind it
@@ -1107,11 +1123,23 @@ pr_bind_tip <- function(tree, tip_label, where, position = 0,
   if (is.null(parent_bl)) parent_bl <- 1
 
   if (position > 0 && position < parent_bl) {
-    # Split the edge: shorten the existing edge, then bind
-    tree$edge.length[edge_row] <- parent_bl - position
+    # ape::bind.tree() handles splitting the edge and adjusting the
+    # original branch length; pre-shortening here would shorten it twice.
     tree <- ape::bind.tree(tree, new_tip, where = where, position = position)
   } else {
-    tree <- ape::bind.tree(tree, new_tip, where = where)
+    # Binding a zero-length new tip directly onto a zero-length terminal
+    # edge can replace the existing tip. Attach at the parent node instead,
+    # giving a zero-length polytomy while preserving the sister tip.
+    bind_where <- if (
+      position <= 0 &&
+        where <= length(tree$tip.label) &&
+        length(edge_row) > 0
+    ) {
+      tree$edge[edge_row[1], 1]
+    } else {
+      where
+    }
+    tree <- ape::bind.tree(tree, new_tip, where = bind_where)
   }
 
   tree

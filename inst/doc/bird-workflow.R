@@ -166,21 +166,19 @@ data(crosswalk_birdlife_birdtree)
 table(crosswalk_birdlife_birdtree$Match.type)
 
 ## ----make-overrides-----------------------------------------------------------
-overrides <- reconcile_crosswalk(
+result_xw <- reconcile_crosswalk_supplement(
+  result,
   crosswalk_birdlife_birdtree,
   from_col = "Species1",
   to_col = "Species3",
-  match_type_col = "Match.type"
+  match_type_col = "Match.type",
+  one_to_one_only = TRUE,
+  quiet = TRUE
 )
 
-# Re-reconcile with overrides
-result_xw <- reconcile_tree(
-  x = avonet_subset,
-  tree = tree_jetz,
-  x_species = "Species1",
-  authority = NULL,
-  overrides = overrides
-)
+if (result_xw$meta$crosswalk_supplement$n_applied == 0) {
+  cat("No reviewed one-to-one crosswalk rows add matches in this subset.\n")
+}
 
 # Compare: how many more matches with the crosswalk?
 cat(sprintf("Without crosswalk: %d matched\n",

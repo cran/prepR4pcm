@@ -7,9 +7,7 @@ knitr::opts_chunk$set(
 
 ## ----setup, eval = TRUE-------------------------------------------------------
 library(prepR4pcm)
-# install.packages(c("rotl", "fishtree"))                 # CRAN
-# pak::pak("daijiang/rtrees")                             # GitHub
-# pak::pak("eliotmiller/clootl")                          # GitHub
+# install.packages(c("rotl", "rtrees", "clootl", "fishtree")) # CRAN
 # pak::pak("phylotastic/datelife")                        # GitHub (heavy)
 
 ## ----status, eval = TRUE------------------------------------------------------

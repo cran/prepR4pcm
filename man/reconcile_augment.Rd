@@ -80,13 +80,14 @@ argument.)}
 \item{quiet}{Logical. Suppress progress messages? Default \code{FALSE}.}
 
 \item{source}{A length-1 character vector. Which grafting backend
-to use. One of \code{"internal"} (default), \code{"rtrees"}, or
-\code{"vphylomaker"}. See \dQuote{Choosing a source}.}
+to use. One of \code{"internal"} (default), \code{"rtrees"},
+\code{"vphylomaker"}, or \code{"uphylomaker"}. See \dQuote{Choosing a source}.}
 
 \item{taxon}{A length-1 character vector. Required when
 \code{source = "rtrees"}. One of \code{"bird"}, \code{"mammal"}, \code{"fish"},
 \code{"amphibian"}, \code{"reptile"}, \code{"plant"}, \code{"shark_ray"}, \code{"bee"},
-\code{"butterfly"}. Ignored for \code{"internal"} and \code{"vphylomaker"}.}
+\code{"butterfly"}. Ignored for \code{"internal"}, \code{"vphylomaker"}, and
+\code{"uphylomaker"}.}
 
 \item{check_ultrametric}{Logical. After grafting, check that the
 result is ultrametric and warn if not. Default \code{TRUE}. The
@@ -164,8 +165,9 @@ new tip diverged in roughly the same way as its congeners.}
 \code{rtrees::get_tree(tree_by_user = TRUE)}. Uses your tree
 as the backbone and lets \code{rtrees} place each missing
 species using genus / family information from a taxon-specific
-reference tree. Requires \code{taxon} and the GitHub-only
-\code{rtrees} package
+reference tree. Requires \code{taxon} and the CRAN
+\code{rtrees} package (install with
+\code{install.packages("rtrees")})
 (\url{https://daijiang.github.io/rtrees/}). Helpful when the
 genus is absent from your tree but present in \code{rtrees}'
 reference --- which the internal mode would skip.}
@@ -288,6 +290,7 @@ resulting tree (or \code{multiPhylo}) directly via
 Other reconciliation functions:
 \code{\link[=reconcile_apply]{reconcile_apply()}},
 \code{\link[=reconcile_crosswalk]{reconcile_crosswalk()}},
+\code{\link[=reconcile_crosswalk_supplement]{reconcile_crosswalk_supplement()}},
 \code{\link[=reconcile_data]{reconcile_data()}},
 \code{\link[=reconcile_diff]{reconcile_diff()}},
 \code{\link[=reconcile_export]{reconcile_export()}},
