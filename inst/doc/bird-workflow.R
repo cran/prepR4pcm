@@ -58,15 +58,15 @@ cat(sprintf("Aligned data: %d rows\nAligned tree: %d tips\n",
             nrow(aligned$data), ape::Ntip(aligned$tree)))
 
 ## ----pgls, message = FALSE, warning = FALSE, eval = requireNamespace("caper", quietly = TRUE)----
-library(caper)
-
-# reconcile_apply() aligns names so data$Species1 matches tree tip labels
-cd <- comparative.data(aligned$tree, aligned$data,
-                       names.col = "Species1", vcv = TRUE)
-
-# PGLS: body mass ~ wing length
-model_pgls <- pgls(log(Mass) ~ log(Wing.Length), data = cd)
-summary(model_pgls)
+# library(caper)
+# 
+# # reconcile_apply() aligns names so data$Species1 matches tree tip labels
+# cd <- comparative.data(aligned$tree, aligned$data,
+#                        names.col = "Species1", vcv = TRUE)
+# 
+# # PGLS: body mass ~ wing length
+# model_pgls <- pgls(log(Mass) ~ log(Wing.Length), data = cd)
+# summary(model_pgls)
 
 ## ----pglmm, message = FALSE, warning = FALSE, results = "hide", eval = requireNamespace("MCMCglmm", quietly = TRUE)----
 library(MCMCglmm)

@@ -391,7 +391,7 @@ variants, taxonomic synonyms — are exactly what prepR4pcm resolves.</p>
 <span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt;   Source x: avonet_subset</span></span>
 <span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt;   Source y: phylo (657 tips)</span></span>
 <span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;   Authority: none</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt;   Timestamp: 2026-08-07 16:35:54</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt;   Timestamp: 2026-09-17 21:14:35</span></span>
 <span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; ℹ Match coverage: [█████████████████████░░░░░░░░░] 71% (657/919)</span></span>
 <span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; ── Match summary ──</span></span>
@@ -471,31 +471,7 @@ regression parameters:</p>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co"># PGLS: body mass ~ wing length</span></span>
 <span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>model_pgls <span class="ot">&lt;-</span> <span class="fu">pgls</span>(<span class="fu">log</span>(Mass) <span class="sc">~</span> <span class="fu">log</span>(Wing.Length), <span class="at">data =</span> cd)</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">summary</span>(model_pgls)</span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; pgls(formula = log(Mass) ~ log(Wing.Length), data = cd)</span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt;      Min       1Q   Median       3Q      Max </span></span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; -0.53264 -0.04823 -0.00130  0.04332  0.50941 </span></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; Branch length transformations:</span></span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; kappa  [Fix]  : 1.000</span></span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; lambda [Fix]  : 1.000</span></span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt; delta  [Fix]  : 1.000</span></span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co">#&gt;                   Estimate Std. Error t value  Pr(&gt;|t|)    </span></span>
-<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co">#&gt; (Intercept)      -5.781917   0.381775 -15.145 &lt; 2.2e-16 ***</span></span>
-<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="co">#&gt; log(Wing.Length)  2.054361   0.065135  31.540 &lt; 2.2e-16 ***</span></span>
-<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
-<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 0.09582 on 651 degrees of freedom</span></span>
-<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared: 0.6044,  Adjusted R-squared: 0.6038 </span></span>
-<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a><span class="co">#&gt; F-statistic: 994.8 on 1 and 651 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">summary</span>(model_pgls)</span></code></pre></div>
 </div>
 <div id="phylogenetic-generalised-linear-mixed-model-pglmm" class="section level3">
 <h3>Phylogenetic generalised linear mixed model (PGLMM)</h3>
@@ -533,25 +509,25 @@ mixed models:</p>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt;  Thinning interval  = 20</span></span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt;  Sample size  = 2000 </span></span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt;  DIC: -176.9922 </span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt;  DIC: -177.6585 </span></span>
 <span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt;  G-structure:  ~phylo</span></span>
 <span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt;       post.mean l-95% CI u-95% CI eff.samp</span></span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; phylo  0.001674 0.001259 0.002135     1202</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; phylo  0.001679 0.001274 0.002138     1468</span></span>
 <span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt;  R-structure:  ~units</span></span>
 <span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt;       post.mean l-95% CI u-95% CI eff.samp</span></span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt; units   0.03157  0.02631  0.03697     1756</span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt; units   0.03156  0.02631    0.037     1296</span></span>
 <span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co">#&gt;  Location effects: log(Mass) ~ log(Wing.Length) + Trophic.Level </span></span>
 <span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a><span class="co">#&gt;                        post.mean l-95% CI u-95% CI eff.samp  pMCMC    </span></span>
-<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="co">#&gt; (Intercept)             -6.23936 -6.72515 -5.72234     2000 &lt;5e-04 ***</span></span>
-<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="co">#&gt; log(Wing.Length)         2.15248  2.05420  2.25754     2215 &lt;5e-04 ***</span></span>
-<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt; Trophic.LevelHerbivore   0.02528 -0.05870  0.10688     2000  0.547    </span></span>
-<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co">#&gt; Trophic.LevelOmnivore    0.03501 -0.03069  0.10208     2000  0.299    </span></span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="co">#&gt; (Intercept)             -6.22951 -6.71568 -5.68771     1911 &lt;5e-04 ***</span></span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="co">#&gt; log(Wing.Length)         2.15081  2.04217  2.25374     2000 &lt;5e-04 ***</span></span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt; Trophic.LevelHerbivore   0.02510 -0.05281  0.11320     2000  0.566    </span></span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co">#&gt; Trophic.LevelOmnivore    0.03545 -0.02634  0.10777     2000  0.290    </span></span>
 <span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
 <span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span></code></pre></div>
 <p>For categorical responses (e.g., migration status with multiple
@@ -592,7 +568,7 @@ analyse.</strong></p>
 <span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt;   Source x: nesttrait_subset</span></span>
 <span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt;   Source y: avonet_subset</span></span>
 <span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt;   Authority: none</span></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt;   Timestamp: 2026-08-07 16:36:12</span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt;   Timestamp: 2026-09-17 21:14:51</span></span>
 <span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#&gt; ℹ Match coverage: [██████████████████████████████] 100% (916/916)</span></span>
 <span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt; ── Match summary ──</span></span>
